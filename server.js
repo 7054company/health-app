@@ -35,6 +35,16 @@ app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'dashboard.html'));
 });
 
+app.get('/data/', (req, res) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).send('Error reading file');
+        }
+        res.send(`<pre>${data}</pre>`); // Send the file contents as response
+    });
+});
+
+
 app.get('/dashboard2', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '2.html'));
 });
