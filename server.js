@@ -36,13 +36,14 @@ app.get('/dashboard', (req, res) => {
 });
 
 app.get('/data', (req, res) => {
-    fs.readFile(filePath, 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname, 'data.txt'), 'utf8', (err, data) => {
         if (err) {
-            return res.status(500).send('Error reading file');
+            return res.status(500).send('Error reading app.txt');
         }
-        res.send(`<pre>${data}</pre>`); // Send the file contents as response
+        res.send(`<pre>${data}</pre>`);
     });
 });
+
 
 
 app.get('/dashboard2', (req, res) => {
