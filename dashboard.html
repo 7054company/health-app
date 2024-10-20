@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #121212;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+      
+        .sidebar {
+            width: 250px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            height: 100%;
+            position: fixed;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.visible {
+            transform: translateX(0);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin: 0 0 20px;
+            font-weight: 300;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .sidebar a:hover {
+            background: #3a3a3a;
+        }
+
+        .main {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            transition: margin-left 0.3s;
+            margin-left: 0;
+        }
+
+        .main.expanded {
+            margin-left: 250px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .menu-btn {
+            background: #1e1e1e;
+            color: #e0e0e0;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .menu-btn:hover {
+            background: #3a3a3a;
+        }
+
+        .logout-btn {
+            background-color: #e63946;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #d62839;
+            transform: scale(1.05);
+        }
+
+        .section {
+            display: none;
+            padding: 20px;
+            border-radius: 5px;
+            background: #2a2a2a;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .card {
+            background: #4a4e69;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main.expanded {
+                margin-left: 200px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .sidebar {
+                width: 150px;
+            }
+            .main.expanded {
+                margin-left: 150px;
+            }
+            .header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2>Dashboard</h2>
+        <a href="#find" onclick="showFindPage()"><i class="fas fa-search"></i>Find</a>
+        <a href="#user-management" onclick="showSection('user-management')"><i class="fas fa-users"></i>User Management</a>
+        <a href="#projects" onclick="showSection('projects')"><i class="fas fa-folder"></i>Projects</a>
+        <a href="#analytics" onclick="showSection('analytics')"><i class="fas fa-chart-bar"></i>Analytics</a>
+        <a href="#services" onclick="showSection('services')"><i class="fas fa-cogs"></i>Services</a>
+        <a href="#billing" onclick="showSection('billing')"><i class="fas fa-money-bill-wave"></i>Billing</a>
+        <a href="#notifications" onclick="showSection('notifications')"><i class="fas fa-bell"></i>Notifications</a>
+        <a href="#support" onclick="showSection('support')"><i class="fas fa-question-circle"></i>Support</a>
+       
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+    <div class="main" id="main-content">
+        <div class="header">
+            <button class="menu-btn" onclick="toggleSidebar()">☰ Menu</button>
+            <h1>Welcome to Your Dashboard</h1>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        <div id="find" class="section">
+            <h3>Find</h3>
+            <button class="menu-btn" onclick="toggleSidebar()">☰ Menu</button>
+            <iframe src="s.html" id="find-iframe"></iframe>
+        </div>  
+        <div id="user-management" class="section active">
+            <h3>User Management</h3>
+            <div class="user-list">
+                <div class="card">
+                    <h2 id="welcomeMessage"></h2>
+    
+    <div id="userInfo"></div>
+ 
+                </div>
+                <div class="card">
+                    <h4>Jane Smith</h4>
+                    <p>Email: jane@example.com</p>
+                    <p>Role: User</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="projects" class="section">
+            <h3>Projects</h3>
+            <div class="project-list">
+                <div class="card">
+                    <h4>Project Alpha</h4>
+                    <p>Status: In Progress</p>
+                </div>
+                <div class="card">
+                    <h4>Project Beta</h4>
+                    <p>Status: Completed</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="analytics" class="section">
+            <h3>Analytics</h3>
+            <div class="analytics">
+                <div class="card">
+                    <h4>User Engagement</h4>
+                    <p>Active Users: 150</p>
+                    <p>Sessions: 2000</p>
+                </div>
+                <div class="card">
+                    <h4>Sales Data</h4>
+                    <p>Total Sales: $20,000</p>
+                    <p>New Customers: 50</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="services" class="section">
+            <h3>Services</h3>
+            <div class="services">
+                <div class="card">
+                    <h4>Service A</h4>
+                    <p>Status: Active</p>
+                </div>
+                <div class="card">
+                    <h4>Service B</h4>
+                    <p>Status: Inactive</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="billing" class="section">
+            <h3>Billing</h3>
+            <div class="billing">
+                <div class="card">
+                    <h4>Current Plan: Pro</h4>
+                    <p>Next Billing Date: 2024-10-20</p>
+                </div>
+                <div class="card">
+                    <h4>Payment History</h4>
+                    <p>Last Payment: $100 on 2024-09-20</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="notifications" class="section">
+            <h3>Notifications</h3>
+            <div class="notifications">
+                <div class="card">
+                    <p>You have 3 new messages.</p>
+                </div>
+                <div class="card">
+                    <p>Your profile was updated successfully.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="support" class="section">
+            <h3>Support</h3>
+            <div class="card">
+                <p>For support, contact us at support@example.com</p>
+            </div>
+        </div>
+
+     
+    </div>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.9); color: #000;
+            display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+    </style>
+    <div class="overlay" id="overlay">You need to log in first.</div>
+    <script>
+        // Check for token on page load
+        window.onload = function() {
+            if (!localStorage.getItem('token')) {
+                document.getElementById('overlay').style.display = 'flex';
+                setTimeout(() => window.location.href = '/login', 5000);
+            }
+        };
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            sidebar.classList.toggle('visible');
+            mainContent.classList.toggle('expanded');
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function showFindPage() {
+            showSection('find');
+        }
+
+        function logout() {
+            // Remove the token from local storage
+            localStorage.removeItem('token');
+
+            // Redirect to the home page or login page
+            window.location.href = '/login'; // Change '/login' to your desired redirect URL
+        }
+
+        // Show the user management section by default
+        showSection('user-management');
+    </script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Retrieve the stored token from localStorage
+            const token = localStorage.getItem('token');
+
+            // Make a GET request to the server with the stored token
+            fetch('/api/u', {
+                headers: {
+                method: 'GET',
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display welcome message and user details on the page
+                document.getElementById('welcomeMessage').textContent = `Welcome ${data.username}!`;
+                document.getElementById('userInfo').innerHTML = `
+                    <p>User ID: ${data.uid}</p>
+                    <p>Username: ${data.username}</p>
+                    <p>Name: ${data.name}</p>
+                    <p>Email: ${data.email}</p>
+                    <p>ip : ${data.ip}</p>
+                 `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+
+
+
+</body>
+</html>

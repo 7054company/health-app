@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to our hospital where your health is our priority. We provide quality healthcare services.">
+    <title>Medical Hospital</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background: #4A90E2;
+            color: white;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav {
+            width: 100%;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        nav ul li a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .btn {
+            background: #F5A623;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            margin-left: 15px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: #e59400;
+            transform: scale(1.05);
+        }
+
+        .hero {
+            position: relative;
+            height: 300px; /* Adjusted height for better mobile view */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: url('https://www.usahealthsystem.com/uploads/locations/_800x800_crop_center-center_82_none/university-hospital-2021.jpg?mtime=1620231205') no-repeat center center;
+            background-size: cover;
+        }
+
+        .hero h1 {
+            font-size: 2em; /* Adjusted for mobile */
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .play-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #F5A623;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            z-index: 1;
+        }
+
+        .video-container {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        section {
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .social-media a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            .hero h1 {
+                font-size: 1.5em; /* Smaller font size on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Hospital</div>
+        <nav>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#departments">Departments</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#news">Latest News</a></li>
+                <li><a href="#health-tips">Health Tips</a></li>
+                <li><a class="btn" href="/login">Login</a></li>
+                <li><a class="btn" href="/booking.html">Book Appointment</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero"> 
+        <h1>Your Health, Our Priority</h1>
+        <button class="play-button" onclick="playVideo()">Play Video</button>
+        <div class="video-container" id="video-container">
+            <iframe id="video" src="https://www.youtube.com/embed/uYTfSPy_5kk?autoplay=0" allow="autoplay" style="display:block;"></iframe>
+        </div>
+    </section>
+    
+    <script>
+        function playVideo() {
+            document.querySelector('.play-button').style.display = 'none'; // Hide the play button
+            const videoContainer = document.getElementById('video-container');
+            videoContainer.style.display = 'block'; // Show video container
+            document.getElementById('video').style.display = 'block'; // Show the video
+        }
+    </script>
+    
+    <section id="about">
+        <h2>About Us</h2>
+        <div class="description">
+            <p>Our hospital has been serving the community for over 20 years, providing quality healthcare and specialized medical services. We are committed to patient-centered care and aim to make every visit a positive experience.</p>
+        </div>
+    </section>
+    
+    <section id="services">
+        <h2>Services Offered</h2>
+        <div class="service-grid">
+            <div class="service-item">
+                <div class="icon">🩺</div>
+                <h3>General Medicine</h3>
+                <p>Comprehensive care for all ages.</p>
+            </div>
+            <div class="service-item">
+                <div class="icon">👶</div>
+                <h3>Pediatrics</h3>
+                <p>Specialized care for children.</p>
+            </div>
+            <div class="service-item">
+                <div class="icon">🚑</div>
+                <h3>Emergency Care</h3>
+                <p>Immediate assistance for critical cases.</p>
+            </div>
+            <div class="service-item">
+                <div class="icon">🔪</div>
+                <h3>Surgery</h3>
+                <p>Advanced surgical procedures.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="departments">
+        <h2>Our Departments</h2>
+        <div class="description">
+            <p>We offer various departments to cater to all health needs, including Cardiology, Neurology, Orthopedics, and more. Each department is staffed with experienced professionals dedicated to providing excellent care.</p>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <h2>Patient Testimonials</h2>
+        <div class="testimonial">
+            <p><strong>John Doe:</strong> "The care I received was outstanding! The staff was compassionate and professional."</p>
+        </div>
+        <div class="testimonial">
+            <p><strong>Jane Smith:</strong> "I felt very comfortable during my stay and appreciated the attention I received."</p>
+        </div>
+    </section>
+
+    <section id="news">
+        <h2>Latest News</h2>
+        <div class="news-item">
+            <h3>New Health Initiative Launched</h3>
+            <p>Our hospital is proud to announce a new initiative aimed at improving patient care.</p>
+        </div>
+        <div class="news-item">
+            <h3>Free Health Camps Scheduled</h3>
+            <p>Join us for our upcoming free health camps throughout the month.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Medical Hospital. All rights reserved.</p>
+        <div class="social-media">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+        </div>
+    </footer>
+</body>
+</html>

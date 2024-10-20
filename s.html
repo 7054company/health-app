@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Finder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        .hospital {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #4CAF50;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+        .hospital:hover {
+            transform: scale(1.02);
+        }
+        .hospital strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .hospital a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .hospital a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Find Hospitals for Your Disease</h1>
+    </header>
+
+    <div class="container">
+        <input type="text" id="search" placeholder="Enter disease name">
+        <button onclick="searchHospitals()"><i class="fas fa-search"></i> Search</button>
+
+        <div id="results"></div>
+    </div>
+
+    <footer>
+        &copy; 2024 Hospital Finder. All Rights Reserved.
+    </footer>
+
+    <script>
+        const data = {
+            "cancer": [
+                { name: "AIIMS, Delhi", link: "https://www.aiims.edu/" },
+                { name: "Tata Memorial Hospital, Mumbai", link: "https://tmc.gov.in/" },
+                { name: "Apollo Hospital, Delhi", link: "https://www.apollohospitals.com/delhi" },
+                { name: "Fortis Hospital, Noida", link: "https://www.fortishealthcare.com/noida" },
+                { name: "Max Super Specialty Hospital, Saket", link: "https://www.maxhealthcare.in/hospitals/saket" },
+                { name: "HCG Oncology, Bangalore", link: "https://www.hcgoncology.com/" },
+                { name: "Kolkata Medical College", link: "http://www.kmch.org/" },
+                { name: "Sankara Nethralaya, Chennai", link: "https://www.sankaranethralaya.org/" },
+                { name: "Narayana Health, Bangalore", link: "https://www.narayanahealth.org/" },
+                { name: "Christian Medical College, Vellore", link: "https://www.cmch-vellore.edu/" }
+            ],
+            "diabetes": [
+                { name: "Apollo Hospital, Chennai", link: "https://www.apollohospitals.com/chennai" },
+                { name: "Max Super Specialty Hospital, Saket", link: "https://www.maxhealthcare.in/hospitals/saket" },
+                { name: "Fortis Hospital, Gurgaon", link: "https://www.fortishealthcare.com/gurgaon" },
+                { name: "AIIMS, Delhi", link: "https://www.aiims.edu/" },
+                { name: "Manipal Hospital, Bangalore", link: "https://www.manipalhospitals.com/" },
+                { name: "Medanta, Gurgaon", link: "https://www.medanta.org/" },
+                { name: "Sankara Nethralaya, Chennai", link: "https://www.sankaranethralaya.org/" },
+                { name: "Christian Medical College, Vellore", link: "https://www.cmch-vellore.edu/" },
+                { name: "Sir Ganga Ram Hospital, Delhi", link: "https://www.sgrh.com/" },
+                { name: "Jaslok Hospital, Mumbai", link: "https://www.jaslokhospital.net/" }
+            ],
+            // Additional diseases can be added here...
+        };
+
+        const allHospitals = [
+            { name: "Apollo Hospital, Bangalore", link: "https://www.apollohospitals.com/bangalore" },
+            { name: "Fortis Hospital, Delhi", link: "https://www.fortishealthcare.com/delhi" },
+            { name: "Max Super Specialty Hospital, Saket", link: "https://www.maxhealthcare.in/hospitals/saket" },
+            { name: "AIIMS, Delhi", link: "https://www.aiims.edu/" },
+            { name: "Manipal Hospital, Bangalore", link: "https://www.manipalhospitals.com/" },
+            { name: "Narayana Health, Bangalore", link: "https://www.narayanahealth.org/" },
+            { name: "Medanta, Gurgaon", link: "https://www.medanta.org/" },
+            { name: "BLK Super Specialty Hospital, Delhi", link: "https://www.blkhospital.com/" },
+            { name: "HCG Hospitals, Bangalore", link: "https://www.hcgoncology.com/" },
+            { name: "Christian Medical College, Vellore", link: "https://www.cmch-vellore.edu/" },
+            // More hospital entries...
+            { name: "Tata Memorial Hospital, Mumbai", link: "https://tmc.gov.in/" },
+            { name: "Fortis Hospital, Noida", link: "https://www.fortishealthcare.com/noida" },
+            { name: "Kokilaben Dhirubhai Ambani Hospital, Mumbai", link: "https://www.kokilabenhospital.com/" },
+            { name: "Sir Ganga Ram Hospital, Delhi", link: "https://www.sgrh.com/" },
+            { name: "St. John's Medical College, Bangalore", link: "https://www.sjmc.edu.in/" },
+            { name: "Jaslok Hospital, Mumbai", link: "https://www.jaslokhospital.net/" },
+            { name: "PGIMER, Chandigarh", link: "https://pgimer.edu.in/" },
+            { name: "Lifeline Hospital, Kolkata", link: "https://www.lifelinehospitals.com/" },
+            { name: "Sankara Nethralaya, Chennai", link: "https://www.sankaranethralaya.org/" },
+            { name: "Manipal Hospitals, Jaipur", link: "https://www.manipalhospitals.com/jaipur/" },
+            { name: "Fortis Hospital, Gurgaon", link: "https://www.fortishealthcare.com/gurgaon" },
+            { name: "Christian Medical College, Vellore", link: "https://www.cmch-vellore.edu/" },
+            { name: "Sir Ganga Ram Hospital, Delhi", link: "https://www.sgrh.com/" },
+            { name: "HCG Cancer Center, Ahmedabad", link: "https://www.hcgoncology.com/" },
+            { name: "Narayana Health, Bangalore", link: "https://www.narayanahealth.org/" },
+            { name: "Lilavati Hospital, Mumbai", link: "https://www.lilavatihospital.com/" },
+            { name: "Breach Candy Hospital, Mumbai", link: "https://www.breachcandyhospital.com/" },
+            { name: "Shalby Hospital, Ahmedabad", link: "https://www.shalby.org/" },
+            { name: "Amrita Institute of Medical Sciences, Kochi", link: "https://www.aims.amrita.edu/" },
+            { name: "Bangalore Baptist Hospital, Bangalore", link: "https://www.bbh.org.in/" },
+            { name: "Motherhood Hospital, Bangalore", link: "https://www.motherhoodindia.com/" },
+            { name: "Care Hospitals, Hyderabad", link: "https://www.carehospitals.com/" },
+            { name: "Rainbow Children's Hospital, Bangalore", link: "https://www.rainbowhospitals.in/" },
+            { name: "PGIMER, Chandigarh", link: "https://pgimer.edu.in/" },
+            // More hospitals can be added here...
+        ];
+
+        function getRandomHospitals(count) {
+            const shuffled = allHospitals.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        function searchHospitals() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            if (data[query]) {
+                data[query].forEach((hospital, index) => {
+                    resultsDiv.innerHTML += `
+                        <div class="hospital">
+                            <strong>${index + 1}. ${hospital.name}</strong>
+                            <a href="${hospital.link}" target="_blank">${hospital.link}</a>
+                        </div>
+                    `;
+                });
+            } else {
+                resultsDiv.innerHTML = '<p>No specific hospitals found for this disease. Here are some hospitals you can consider:</p>';
+                const randomHospitals = getRandomHospitals(10);
+                randomHospitals.forEach((hospital, index) => {
+                    resultsDiv.innerHTML += `
+                        <div class="hospital">
+                            <strong>${index + 1}. ${hospital.name}</strong>
+                            <a href="${hospital.link}" target="_blank">${hospital.link}</a>
+                        </div>
+                    `;
+                });
+            }
+        }
+    </script>
+</body>
+</html>

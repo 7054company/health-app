@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Appointment Booking in India</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        input { margin-bottom: 20px; width: 100%; padding: 10px; }
+        #hospital-links { margin: 20px 0; }
+        button { display: block; margin: 5px 0; padding: 10px; width: 100%; }
+    </style>
+</head>
+<body>
+    <h1>Book Your Appointment</h1>
+    <input type="text" id="search" placeholder="Search for a hospital..." onkeyup="filterHospitals()">
+    <div id="hospital-links">
+        <button onclick="bookAppointment('https://www.apollohospitals.com')">Apollo Hospitals</button>
+        <button onclick="bookAppointment('https://www.fortishealthcare.com')">Fortis Healthcare</button>
+        <button onclick="bookAppointment('https://www.maxhealthcare.in')">Max Healthcare</button>
+        <button onclick="bookAppointment('https://www.manipalhospitals.com')">Manipal Hospitals</button>
+        <button onclick="bookAppointment('https://tmc.gov.in')">Tata Memorial Hospital</button>
+        <button onclick="bookAppointment('https://www.narayanahealth.org')">Narayana Health</button>
+        <button onclick="bookAppointment('https://www.lilavatihospital.com')">Lilavati Hospital and Research Centre</button>
+        <button onclick="bookAppointment('https://www.sgrh.com')">Sir Ganga Ram Hospital</button>
+        <button onclick="bookAppointment('https://www.kokilabenhospital.com')">Kokilaben Dhirubhai Ambani Hospital</button>
+        <button onclick="bookAppointment('https://www.apollohospitals.com/indraprastha')">Indraprastha Apollo Hospital</button>
+        <button onclick="bookAppointment('https://www.christushealth.org')">Christus Health</button>
+        <button onclick="bookAppointment('https://asterdmhealthcare.com')">Aster DM Healthcare</button>
+        <button onclick="bookAppointment('https://fortislafemme.com')">Fortis La Femme Hospital</button>
+        <button onclick="bookAppointment('https://www.breachcandyhospital.org')">Breach Candy Hospital</button>
+        <button onclick="bookAppointment('https://www.hindujahospital.com')">P.D. Hinduja Hospital</button>
+        <button onclick="bookAppointment('https://www.wockhardthospitals.net')">Wockhardt Hospitals</button>
+        <button onclick="bookAppointment('https://www.medanta.org')">Medanta - The Medicity</button>
+        <button onclick="bookAppointment('https://www.sankaranethralaya.org')">Sankara Nethralaya</button>
+        <button onclick="bookAppointment('https://www.vivekanandahospital.com')">Vivekananda Hospital</button>
+        <button onclick="bookAppointment('https://www.carehospitals.com')">Care Hospital</button>
+        <button onclick="bookAppointment('https://www.aiims.edu')">AIIMS</button>
+        <button onclick="bookAppointment('https://pgimer.edu.in')">PGIMER</button>
+        <button onclick="bookAppointment('http://www.bmcri.org')">Bangalore Medical College</button>
+        <button onclick="bookAppointment('https://tmckolkata.com')">Tata Medical Center</button>
+        <button onclick="bookAppointment('https://www.rgcirc.org')">Rajiv Gandhi Cancer Institute</button>
+    </div>
+
+    <script>
+        function bookAppointment(url) {
+            window.location.href = url; // Opens the booking link in the same window
+        }
+
+        function filterHospitals() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const buttons = document.querySelectorAll('#hospital-links button');
+            buttons.forEach(button => {
+                const text = button.innerText.toLowerCase();
+                button.style.display = text.includes(input) ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

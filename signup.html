@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 1.5s steps(20, end) forwards;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        .input-container {
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #0073e6;
+        }
+
+        .btn {
+            background-color: #0073e6;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .btn:hover {
+            background-color: #005bb5;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+            color: #0073e6;
+        }
+
+        .message {
+            margin-top: 10px;
+            text-align: center;
+            color: #d9534f; /* Red color for error messages */
+        }
+
+        .footer-message {
+            position: absolute;
+            bottom: 60px;
+            text-align: center;
+            color: #555;
+            font-size: 0.75rem;
+            width: 100%;
+            z-index: 2;
+            padding: 0 10px;
+        }
+
+        .redirect-message {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .stop-btn {
+            background-color: #d9534f;
+            display: none;
+            margin-top: 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .stop-btn:hover {
+            background-color: #c9302c;
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container" id="signupContainer">
+        <h1 id="title">Create Your Account</h1>
+
+        <!-- Email and Password Fields -->
+        <div class="input-container" id="emailContainer">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-container" id="passwordContainer">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+
+        <!-- Name Fields -->
+        <div class="input-container" id="nameContainer">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" placeholder="Enter your first name" required>
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" placeholder="Enter your last name" required>
+        </div>
+
+        <button class="btn" id="signupBtn">Next</button>
+        <div class="loading" id="loading">Signing up...</div>
+        <div class="message" id="message"></div>
+        
+        <div class="redirect-message" id="redirectMessage">
+            <span id="redirectText"></span>
+            <button class="stop-btn" id="stopBtn">Stop</button>
+        </div>
+    </div>
+
+    <div class="footer-message">
+        By creating an account, you agree to the <a href="#" style="color: #0073e6; text-decoration: none;">Terms of Service</a> and the <a href="#" style="color: #0073e6; text-decoration: none;">Privacy Statement</a>.
+    </div>
+
+    <script>
+        const signupContainer = document.getElementById('signupContainer');
+        const emailContainer = document.getElementById('emailContainer');
+        const passwordContainer = document.getElementById('passwordContainer');
+        const nameContainer = document.getElementById('nameContainer');
+        const signupBtn = document.getElementById('signupBtn');
+        const loading = document.getElementById('loading');
+        const message = document.getElementById('message');
+        const redirectMessage = document.getElementById('redirectMessage');
+        const stopBtn = document.getElementById('stopBtn');
+        const redirectText = document.getElementById('redirectText');
+
+        let userIp = ''; // Variable to store the IP address
+        let ipFetched = false; // To track if the IP has been fetched
+        let redirectTimeout; // Variable to store the redirect timeout
+
+        // Fetch the user's IP address
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => {
+                userIp = data.ip; // Store the fetched IP
+                ipFetched = true; // Mark IP as fetched
+                console.log(`User IP: ${userIp}`);
+            })
+            .catch(() => {
+                console.error('Error fetching IP');
+            });
+
+        // Show the signup container with animation
+        window.onload = function() {
+            signupContainer.style.opacity = '1';
+            signupContainer.style.transform = 'translateY(0)';
+            setTimeout(showEmailField, 2000); // Wait for typing effect
+        };
+
+        function showEmailField() {
+            emailContainer.style.display = 'block';
+            passwordContainer.style.display = 'block';
+            signupBtn.style.display = 'block';
+            signupBtn.textContent = "Next"; // Set button text to "Next"
+        }
+
+        signupBtn.addEventListener('click', () => {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (signupBtn.textContent === "Next") {
+                if (email && password) {
+                    emailContainer.style.display = 'none';
+                    passwordContainer.style.display = 'none';
+                    nameContainer.style.display = 'block';
+                    signupBtn.textContent = "Sign Up"; // Change button text to "Sign Up"
+                } else {
+                    message.textContent = "Please fill in all fields.";
+                }
+            } else if (signupBtn.textContent === "Sign Up") {
+                if (firstName && lastName && email && password) {
+                    if (!ipFetched) {
+                        message.textContent = "IP address is still being fetched, please try again.";
+                        return;
+                    }
+
+                    loading.style.display = 'block';
+                    message.textContent = '';
+
+                    // Show "Signing up..." message
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                        loading.textContent = ''; // Clear loading text
+                        // Call signup API
+                        fetch('/auth/signup', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ firstName, lastName, email, password, ip: userIp }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message === "User registered successfully") {
+                                redirectText.textContent = "Signup successful! Redirecting you to Login...";
+                                redirectMessage.style.display = 'block';
+                                stopBtn.style.display = 'block'; // Show the stop button
+                                redirectTimeout = setTimeout(() => {
+                                    window.location.href = '/login'; // Redirect after 5 seconds
+                                }, 5000);
+                            } else if (data.message === "Email already registered") {
+                                message.textContent = "This email is already registered. Please use a different email.";
+                            } else {
+                                message.textContent = "Signup failed. Please try again.";
+                            }
+                        })
+                        .catch(error => {
+                            loading.style.display = 'none';
+                            message.textContent = 'An error occurred: ' + error.message;
+                        });
+                    }, 1000); // Wait for 1 second before calling signup API
+                } else {
+                    message.textContent = "Please fill in all fields.";
+                }
+            }
+        });
+
+        // Stop redirecting when the stop button is clicked
+        stopBtn.addEventListener('click', () => {
+            clearTimeout(redirectTimeout); // Clear the timeout
+            redirectMessage.style.display = 'none'; // Hide redirect message
+            message.textContent = "Redirect stopped.";
+        });
+    </script>
+</body>
+</html>
