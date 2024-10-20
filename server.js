@@ -19,7 +19,7 @@ app.use('/api', apiRouter);
 app.use('/api', dashboardRouter);
 app.use('/api', updateRouter);
 
-
+const appFilePath = path.join(__dirname, 'data.txt');
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
