@@ -13,7 +13,7 @@ const sendEmail = async (toEmail, username, password) => {
     const emailData = {
         from: {
             email: 'user@trial-o65qngkpr08lwr12.mlsender.net', // Use your company's support email
-            name: 'Your Company Support Team',
+            name: 'Your vikas Support Team',
         },
         to: [
             {
