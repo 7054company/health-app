@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: linear-gradient(to right, #f5f7fa, #ffffff);
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background-color: #3e6de2;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            border: 2px solid red; /* Red border */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .box {
+            height: 120px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+            border: 2px solid transparent; /* Default transparent border */
+        }
+        .box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .box:hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 10px;
+            border: 2px solid;
+            opacity: 0.7;
+        }
+        .ambulance { background-color: #ff7043; }
+        .map { background-color: #42a5f5; }
+        .shopping { background-color: #66bb6a; }
+        .hotel { background-color: #ffa726; }
+        .food { background-color: #ab47bc; }
+        .travel { background-color: #42a5f5; }
+        .medicine { background-color: #5c6bc0; }
+        .vehicle { background-color: #ec407a; }
+        .grocery { background-color: #ffca28; }
+
+        /* Hover border colors */
+        .ambulance:hover::after { border-color: #e64a19; }
+        .map:hover::after { border-color: #1e88e5; }
+        .shopping:hover::after { border-color: #388e3c; }
+        .hotel:hover::after { border-color: #ef6c00; }
+        .food:hover::after { border-color: #8e24aa; }
+        .travel:hover::after { border-color: #1e88e5; }
+        .medicine:hover::after { border-color: #3949ab; }
+        .vehicle:hover::after { border-color: #d81b60; }
+        .grocery:hover::after { border-color: #fbc02d; }
+
+        .icon {
+            font-size: 48px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Emergency Services
+</header>
+
+<div class="container">
+    <div class="box ambulance" onclick="toggleActive(this, 'https://www.example.com/ambulance')">
+        <i class="fas fa-ambulance icon"></i><br>Ambulance
+    </div>
+    <div class="box map" onclick="toggleActive(this, 'https://www.mapwebsite.com')">
+        <i class="fas fa-map-marked-alt icon"></i><br>Map
+    </div>
+    <div class="box shopping" onclick="toggleActive(this, 'http://paytm.com')">
+        <i class="fas fa-shopping-cart icon"></i><br>Shopping
+    </div>
+    <div class="box hotel" onclick="toggleActive(this, 'https://www.example.com/hotel')">
+        <i class="fas fa-hotel icon"></i><br>Hotel Booking
+    </div>
+    <div class="box food" onclick="toggleActive(this, 'https://www.example.com/food')">
+        <i class="fas fa-utensils icon"></i><br>Food Delivery
+    </div>
+    <div class="box travel" onclick="toggleActive(this, 'https://www.example.com/travel')">
+        <i class="fas fa-plane icon"></i><br>Travel
+    </div>
+    <div class="box medicine" onclick="toggleActive(this, 'https://www.example.com/medicine')">
+        <i class="fas fa-medkit icon"></i><br>Medicine
+    </div>
+    <div class="box vehicle" onclick="toggleActive(this, 'https://www.example.com/vehicle')">
+        <i class="fas fa-car icon"></i><br>Vehicle Booking
+    </div>
+    <div class="box grocery" onclick="toggleActive(this, 'https://www.example.com/grocery')">
+        <i class="fas fa-shopping-basket icon"></i><br>Grocery
+    </div>
+</div>
+
+<script>
+    function toggleActive(element, url) {
+        const isActive = element.classList.toggle('active');
+        if (isActive) {
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 300); // Delay to allow active effect to show
+        }
+    }
+</script>
+
+</body>
+</html>
