@@ -11,14 +11,15 @@
             margin: 0;
             display: flex;
             height: 100vh;
-            background-color: #121212;
-            color: #e0e0e0;
+            background-color: #ffffff; /* Light background */
+            color: #000000; /* Dark text */
             overflow: hidden;
+            transition: background-color 0.3s, color 0.3s;
         }
-      
+
         .sidebar {
             width: 250px;
-            background-color: #1e1e1e;
+            background-color: #f0f0f0; /* Light sidebar */
             padding: 20px;
             height: 100%;
             position: fixed;
@@ -40,7 +41,7 @@
         .sidebar a {
             display: flex;
             align-items: center;
-            color: #e0e0e0;
+            color: #000000; /* Dark text */
             text-decoration: none;
             padding: 12px;
             margin: 10px 0;
@@ -49,7 +50,7 @@
         }
 
         .sidebar a:hover {
-            background: #3a3a3a;
+            background: #e0e0e0; /* Light hover */
         }
 
         .main {
@@ -71,9 +72,9 @@
             margin-bottom: 20px;
         }
 
-        .menu-btn {
-            background: #1e1e1e;
-            color: #e0e0e0;
+        .menu-btn, .toggle-btn, .logout-btn {
+            background: #f0f0f0; /* Light button */
+            color: #000000; /* Dark text */
             border: none;
             padding: 10px 15px;
             cursor: pointer;
@@ -81,18 +82,13 @@
             transition: background 0.3s;
         }
 
-        .menu-btn:hover {
-            background: #3a3a3a;
+        .menu-btn:hover, .toggle-btn:hover, .logout-btn:hover {
+            background: #e0e0e0; /* Light hover */
         }
 
         .logout-btn {
             background-color: #e63946;
             color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
         }
 
         .logout-btn:hover {
@@ -104,7 +100,7 @@
             display: none;
             padding: 20px;
             border-radius: 5px;
-            background: #2a2a2a;
+            background: #f8f8f8; /* Light section background */
         }
 
         .section.active {
@@ -112,7 +108,7 @@
         }
 
         .card {
-            background: #4a4e69;
+            background: #ffffff; /* White card background */
             border-radius: 8px;
             padding: 15px;
             margin: 10px 0;
@@ -146,6 +142,32 @@
                 font-size: 20px;
             }
         }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text */
+        }
+
+        .sidebar.dark-mode {
+            background-color: #1e1e1e; /* Dark sidebar */
+        }
+
+        .sidebar.dark-mode a {
+            color: #e0e0e0; /* Light text */
+        }
+
+        .sidebar.dark-mode a:hover {
+            background: #3a3a3a; /* Dark hover */
+        }
+
+        .section.dark-mode {
+            background: #2a2a2a; /* Dark section background */
+        }
+
+        .card.dark-mode {
+            background: #4a4e69; /* Dark card background */
+        }
     </style>
 </head>
 <body>
@@ -159,7 +181,8 @@
         <a href="#billing" onclick="showSection('billing')"><i class="fas fa-money-bill-wave"></i>Billing</a>
         <a href="#notifications" onclick="showSection('notifications')"><i class="fas fa-bell"></i>Notifications</a>
         <a href="#support" onclick="showSection('support')"><i class="fas fa-question-circle"></i>Support</a>
-       
+        
+        <button class="toggle-btn" id="darkModeToggle">Toggle Dark Mode</button>
         <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
     <div class="main" id="main-content">
@@ -178,9 +201,7 @@
             <div class="user-list">
                 <div class="card">
                     <h2 id="welcomeMessage"></h2>
-    
-    <div id="userInfo"></div>
- 
+                    <div id="userInfo"></div>
                 </div>
                 <div class="card">
                     <h4>Jane Smith</h4>
@@ -266,8 +287,6 @@
                 <p>For support, contact us at support@example.com</p>
             </div>
         </div>
-
-     
     </div>
     <style>
         body { font-family: Arial, sans-serif; }
@@ -316,9 +335,21 @@
 
         // Show the user management section by default
         showSection('user-management');
+
+        // Dark Mode Toggle
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.sidebar').classList.toggle('dark-mode');
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.toggle('dark-mode');
+            });
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.toggle('dark-mode');
+            });
+        });
     </script>
 
-<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Retrieve the stored token from localStorage
             const token = localStorage.getItem('token');
@@ -326,7 +357,7 @@
             // Make a GET request to the server with the stored token
             fetch('/api/u', {
                 headers: {
-                method: 'GET',
+                    method: 'GET',
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
@@ -340,16 +371,13 @@
                     <p>Username: ${data.username}</p>
                     <p>Name: ${data.name}</p>
                     <p>Email: ${data.email}</p>
-                    <p>ip : ${data.ip}</p>
-                 `;
+                    <p>IP: ${data.ip}</p>
+                `;
             })
             .catch(error => {
                 console.error('Error:', error);
             });
         });
     </script>
-
-
-
 </body>
 </html>
